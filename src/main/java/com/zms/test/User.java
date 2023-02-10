@@ -1,4 +1,4 @@
-package com.zms;
+package com.zms.test;
 
 /**
  * @Description : TODO
@@ -18,5 +18,15 @@ public class User {
         this.id = id;
         this.password = password;
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", password='" + password + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

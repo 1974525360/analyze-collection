@@ -1,9 +1,9 @@
-import com.zms.HashNode;
-import com.zms.Node;
-import com.zms.User;
+package com.zms.test;
+
+import com.zms.collection.HashNode;
+import com.zms.collection.domain.Node;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * @Description : TODO
@@ -14,7 +14,7 @@ import java.util.HashSet;
 public class Main {
     public static void main(String[] args) {
         HashNode<String, User> nodes = new HashNode<>();
-        int minSize = 1000000;
+        int minSize = 2000000;
         HashMap<String, User> map = new HashMap<>();
 //        nodes.put("1",2L);
 //        nodes.put("2",3L);
@@ -48,23 +48,30 @@ public class Main {
         System.out.println(endb - startb);
 
 
-//        Long startc = System.currentTimeMillis();
-//        nodes.getSetNode();
+        Long startc = System.currentTimeMillis();
+        nodes.getSetNode();
 //        nodes.remove("1029");
-//        Long endc = System.currentTimeMillis();
-//        System.out.println(endc - startc);
+        Long endc = System.currentTimeMillis();
+        System.out.println(endc - startc);
 
 
 //        HashSet<String> strings = new HashSet<>();
 ////        nodes.put("21",21);
-////        System.out.println(nodes.getSize());
+//        System.out.println(nodes.getSize());
 //        for (Node<String, Integer> node : nodes.getSetNode()) {
 //            strings.add(node.getKey());
 //        }
+//        nodes.remove(s[minSize-minSize]);
+//        nodes.put(s[minSize-1],users[minSize-1]);
+//        for (Node<String, User> node : nodes.getSetNode()) {
+//            System.out.println(node.getKey());
+//            System.out.println(node.getValue());
+//        }
 //        System.out.println(strings.size());
 //
-//        Node<String, Integer>[] nodes1 = nodes.nodes;
-//        System.out.println();
+
+        Node<String, User>[] setNode = nodes.getSetNode();
+        System.out.println();
 //        System.out.println(Objects.equals("7","21"));
     }
 }

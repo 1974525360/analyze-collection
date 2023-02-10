@@ -1,4 +1,6 @@
-package com.zms;
+package com.zms.collection;
+
+import com.zms.collection.domain.Node;
 
 /**
  * @Description : TODO
@@ -17,6 +19,7 @@ public class HashNode<K, V> {
     private Node<K, V>[] nodes;
     private int nodesLength;
     private Node<K, V> setNode;
+    private Node<K,V> setCurNode;
 
 
     public HashNode(int initSize) {
@@ -39,10 +42,16 @@ public class HashNode<K, V> {
         }
         int hashCode = hash(key);
         int index = index(hashCode);
-        setNode = new Node<>();
         Node<K, V> node = new Node<>(hashCode, key, index, value, 1);
         Node<K, V> oldNode = nodes[index];
         if (oldNode == null) {
+            if(size==0){
+                setNode = node;
+                setCurNode = node;
+            }else {
+                setCurNode.setSetIterateNext(node);
+                setCurNode = setCurNode.getSetIterateNext();
+            }
             nodes[index] = node;
             size++;
             nodesLength++;
@@ -55,6 +64,8 @@ public class HashNode<K, V> {
         Node<K, V> temp = nodes[index];
         addNode(temp, node);
         size++;
+        setCurNode.setSetIterateNext(node);
+        setCurNode = setCurNode.getSetIterateNext();
     }
 
     private boolean isCompletelyEqual(Node<K, V> oldNode, Node<K, V> node) {
@@ -93,17 +104,22 @@ public class HashNode<K, V> {
     public Node<K, V>[] getSetNode() {
         Node<K, V>[] setNode = (Node<K, V>[]) new Node[size];
         int len = 0;
-        for (Node<K, V> kvNode : nodes) {
-            if (kvNode != null) {
-                Node<K, V> cur = kvNode;
-                while (cur != null) {
-                    int hashCode = hash(cur.getKey());
-                    Node<K, V> node = new Node<>(hashCode, cur.getKey(), cur.getIndexValue(), cur.getValue(), 0);
-                    setNode[len] = node;
-                    len++;
-                    cur = cur.getNextNode();
-                }
-            }
+//        for (Node<K, V> kvNode : nodes) {
+//            if (kvNode != null) {
+//                Node<K, V> cur = kvNode;
+//                while (cur != null) {
+//                    int hashCode = hash(cur.getKey());
+//                    Node<K, V> node = new Node<>(hashCode, cur.getKey(), cur.getIndexValue(), cur.getValue(), 0);
+//                    setNode[len] = node;
+//                    len++;
+//                    cur = cur.getNextNode();
+//                }
+//            }
+//        }
+        Node<K,V> cur = this.setNode;
+        for (int i = 0; i < size; i++) {
+            setNode[i] = cur;
+            cur = cur.getSetIterateNext();
         }
         return setNode;
     }
@@ -294,7 +310,9 @@ public class HashNode<K, V> {
             if(node.getNextNode()!=null){
                 node.getNextNode().setIndexLength(node.getIndexLength()-1);
             }
-            return node.getNextNode();
+            removeSetNode(key);
+            node = node.getNextNode();
+            return node;
         }
         Node<K, V> cur = node;
         while (true) {
@@ -312,10 +330,32 @@ public class HashNode<K, V> {
                 }
                 size--;
                 node.setIndexLength(node.getIndexLength()-1);
+                removeSetNode(key);
                 return node;
             }
             cur = cur.getNextNode();
         }
     }
 
+    private void removeSetNode(K key){
+        Node<K, V> cur = this.setNode;
+        if (this.setNode.getKey().equals(key) && this.setNode.getHashCode() == hash(key)) {
+            Node<K, V> kvNode = setNode.getSetIterateNext();
+            setNode = null;
+            setNode = kvNode;
+            return;
+        }
+        while (cur.getSetIterateNext() != null) {
+            Node<K, V> next = cur.getSetIterateNext();
+            if (next.getKey().equals(key) && next.getHashCode() == hash(key)) {
+                cur.setSetIterateNext(next.getSetIterateNext());
+                break;
+            }
+            cur = cur.getSetIterateNext();
+        }
+        if (cur.getSetIterateNext() == null) {
+            this.setCurNode = cur;
+        }
+
+    }
 }

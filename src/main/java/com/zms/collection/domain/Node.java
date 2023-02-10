@@ -1,4 +1,4 @@
-package com.zms;
+package com.zms.collection.domain;
 
 /**
  * @Description : TODO
@@ -9,6 +9,7 @@ package com.zms;
 public class Node<K,V>{
     private Node<K,V> preNode;
     private Node<K,V> nextNode;
+    private Node<K,V> setIterateNext;
     private int hashCode;
     private V value;
     /**
@@ -71,6 +72,14 @@ public class Node<K,V>{
 
     public void setKey(K key) {
         this.key = key;
+    }
+
+    public Node<K, V> getSetIterateNext() {
+        return setIterateNext;
+    }
+
+    public void setSetIterateNext(Node<K, V> setIterateNext) {
+        this.setIterateNext = setIterateNext;
     }
 
     @Override
