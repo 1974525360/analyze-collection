@@ -3,7 +3,7 @@ package com.zms.test;
 import com.zms.collection.HashNode;
 import com.zms.collection.domain.Node;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @Description : TODO
@@ -72,6 +72,12 @@ public class Main {
 
         Node<String, User>[] setNode = nodes.getSetNode();
         System.out.println();
-//        System.out.println(Objects.equals("7","21"));
+
+        List<String> list = new LinkedList<>();
+        list.add("1");
+        list.add("3");
+        list.add("2");
+        list.sort(Comparator.comparingInt(o -> o.toCharArray()[0]));
+        //        System.out.println(Objects.equals("7","21"));
     }
 }
